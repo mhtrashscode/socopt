@@ -15,7 +15,7 @@
 		<content>
             <layout:VerticalLayout >
 			<ObjectHeader
-                intro="ID {viewData>/recording/id}"
+                intro="{viewData>/recording/id}"
 				title="{viewData>/recording/name}"
 				backgroundDesign="Solid"
                 number="{
@@ -74,7 +74,7 @@
                                 text="{
                                     path: 'viewData>energyCovered',
                                     formatter: 'formatter.w2kw'
-                                } KW" />
+                                } KWH" />
                         </cells>
                     </ColumnListItem>
                 </items>

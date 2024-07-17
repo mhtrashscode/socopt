@@ -74,7 +74,7 @@
                                 text="{
                                     path: 'viewData>energyCovered',
                                     formatter: 'formatter.w2kw'
-                                } KW" />
+                                } KWH" />
                         </cells>
                     </ColumnListItem>
                 </items>

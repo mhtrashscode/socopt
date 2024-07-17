@@ -76,7 +76,7 @@ sap.ui.define([
             apiVersion: 2,
             render: function (oRm, oControl) {
                 oRm.openStart("canvas", oControl);
-                oRm.style("max-height", "30em");
+                oRm.style("max-height", "25em");
                 oRm.openEnd();
                 oRm.close("canvas");
             }

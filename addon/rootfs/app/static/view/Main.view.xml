@@ -18,12 +18,6 @@
 			<ObjectHeader
 				title="Optimize Solar Power Consumption"
 				backgroundDesign="Solid">
-				<!--
-				<attributes>
-					<ObjectAttribute title="Weight" text="{WeightMeasure} {WeightUnit}" />
-					<ObjectAttribute title="Dimensions" text="{Width} x {Depth} X {Height} {DimUnit}" />
-				</attributes>
-				-->
 			</ObjectHeader>
 			<IconTabBar
 				class="sapUiSmallMarginBottom sapUiResponsiveContentPadding"
