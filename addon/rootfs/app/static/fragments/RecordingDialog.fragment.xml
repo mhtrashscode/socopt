@@ -1,0 +1,59 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core">
+	<Dialog
+		id="addRecDialog"
+		title="Add Consumption Recording">
+		<content>
+            <Panel>
+                <Label text="Name" labelFor="inputName"/>
+                <Input id="inputName"
+                    required="true" 
+                    value="{viewData>/newRecording/name}"/>             
+                <Label text="Entity" labelFor="inputEntityId" />
+				<ComboBox
+					id="inputEntityId"
+                    width="100%"
+                    required="true"
+					showSecondaryValues= "true"
+					filterSecondaryValues= "true"
+					value="{viewData>/newRecording/entityId}"
+					selectedKey="{viewData>/newRecording/entityId}"
+					items="{viewData>/entities}">
+					<core:ListItem key="{viewData>id}" text="{viewData>id}" additionalText="{viewData>name}"/>
+				</ComboBox>                
+                <Label text="Interval Length (Minutes)" labelFor="inputEntityId" />
+                <Input id="inputIntervalLength"
+                    required="true" 
+                    value="{viewData>/newRecording/intervalLength}" />
+                <Label text="Begin" labelFor="pickerBegin" />                    
+                <DateTimePicker
+                    id="pickerBegin"
+                    required="true"
+                    value="{                                    
+                        path: 'viewData>/newRecording/begin',
+                        type: 'sap.ui.model.odata.type.DateTime'
+                    }"/>  
+                <Label text="End" labelFor="pickerEnd" />
+                <DateTimePicker
+                    id="pickerEnd"
+                    required="true"
+                    value="{                                    
+                        path: 'viewData>/newRecording/end',
+                        type: 'sap.ui.model.odata.type.DateTime'
+                    }"/>                                                        
+            </Panel>
+		</content>
+		<footer>
+			<Toolbar>
+				<content>
+                    <ToolbarSpacer />
+					<Button type="Accept" text="Save" press="saveRecordingPress" />
+                    <Button type="Default" text="Cancel" press="cancelRecordingPress" />
+				</content>
+			</Toolbar>
+		</footer>
+	</Dialog>
+</core:FragmentDefinition>

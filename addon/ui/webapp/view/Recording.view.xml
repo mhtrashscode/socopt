@@ -1,0 +1,79 @@
+<mvc:View
+	controllerName="de.fernunihagen.smartgrids.socopt.controller.Recording"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	core:require="{
+		formatter: 'de/fernunihagen/smartgrids/socopt/model/formatter'
+	}">
+
+	<Page
+		showHeader="false"
+		id="recordingPage">
+		<content>
+			<ObjectHeader
+                intro="{viewData>/recording/id}"
+				title="{viewData>/recording/name}"
+				backgroundDesign="Solid"
+                number="{
+                    path: 'viewData>/recording/totalConsumption',
+                    formatter: 'formatter.w2kw'
+                }"
+                numberUnit="KW">
+				<attributes>
+					<ObjectAttribute title="Recorded At" text="{
+                        path: 'viewData>/recording/recordedAt',
+                        formatter: 'formatter.formatDate'
+                    }" />
+					<ObjectAttribute title="Interval Length" text="{viewData>/recording/intervalLength}" />
+                    <ObjectAttribute title="Recorded With" text="{viewData>/recording/entityId}" />
+				</attributes>
+			</ObjectHeader>
+            <Table id="predictionsTable"
+                items="{viewData>/predictions}">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="Energy Coverage Predictions" level="H2"/>
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>                
+                <columns>
+                    <Column>
+                        <Text text="Begin" />
+                    </Column>
+                  <Column>
+                        <Text text="Coverage" />
+                    </Column>                    
+                    <Column>
+                        <Text text="Energy Covered" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text
+                                text="{
+                                    path: 'viewData>begin',
+                                    formatter: 'formatter.weekTime'
+                                }" />
+                            <ObjectNumber
+                                number="{= Math.round(${viewData>coverage} * 10000) / 100}"
+                                unit="%"
+                                state="{
+                                    path: 'viewData>coverage',
+                                    formatter: 'formatter.coverage'
+                                }" />
+                            <Text
+                                text="{
+                                    path: 'viewData>energyCovered',
+                                    formatter: 'formatter.w2kw'
+                                } KW" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+		</content>
+	</Page>
+</mvc:View>

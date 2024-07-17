@@ -1,0 +1,33 @@
+name: "Solar Consumption Optimizer"
+description: "Optimize direct consumption of solar production"
+version: "1.0.0"
+slug: "socopt"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+ports:
+  3000/tcp: 3000
+ingress: true
+ingress_port: 3000
+ingress_entry: index.html
+panel_icon: mdi:solar-power
+panel_admin: false
+homeassistant_api: true
+
+options:
+  latitude: 51.27
+  longitude: 9.54
+  azimut: 45
+  declination: 45
+  kilowattpower: 3.5
+
+schema:
+  latitude: float
+  longitude: float
+  azimut: int
+  declination: int
+  kilowattpower: float

@@ -1,0 +1,20 @@
+{
+	"name": "de.fernunihagen.smartgrids.socopt",
+	"version": "1.0.0",
+	"description": "UI5 Application: de.fernunihagen.smartgrids.socopt",
+	"author": "Max",
+	"license": "Apache-2.0",
+	"scripts": {
+		"clean": "rimraf ../static",
+		"build": "ui5 build --dest ../rootfs/app/static --clean-dest",
+		"start": "ui5 serve --port 8080 -o index.html --verbose",
+		"lint": "eslint webapp"
+	},
+	"devDependencies": {
+		"@ui5/cli": "^3.11.0",
+		"eslint": "^8.57.0",
+		"rimraf": "^5.0.7",
+		"ui5-middleware-livereload": "^3.0.3",
+		"ui5-middleware-simpleproxy": "^3.2.16"
+	}
+}

@@ -1,0 +1,19 @@
+{
+  "name": "socopt",
+  "version": "1.0.0",
+  "description": "Solar Direct Consumption Optimizer",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "Harun B., Max H.",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.11.11",
+    "express": "^4.19.2",
+    "mathjs": "^13.0.2",
+    "nanoid": "^5.0.7",
+    "node-fetch": "^3.3.2"
+  }
+}

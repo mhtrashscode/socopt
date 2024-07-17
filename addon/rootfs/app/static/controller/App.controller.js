@@ -1,0 +1,2 @@
+sap.ui.define(["./BaseController"],function(e){"use strict";return e.extend("de.fernunihagen.smartgrids.socopt.controller.App",{onInit:function(){this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass())}})});
+//# sourceMappingURL=App.controller.js.map

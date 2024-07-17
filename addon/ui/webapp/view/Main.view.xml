@@ -1,0 +1,103 @@
+<mvc:View xmlns:layout="sap.ui.layout"
+	controllerName="de.fernunihagen.smartgrids.socopt.controller.Main"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	core:require="{
+		formatter: 'de/fernunihagen/smartgrids/socopt/model/formatter'
+	}">
+
+	<Page
+		id="mainPage"
+		showHeader="false"
+		floatingFooter="true">
+		<content>
+			<ObjectHeader
+				title="Optimize Solar Power Consumption"
+				backgroundDesign="Solid">
+				<!--
+				<attributes>
+					<ObjectAttribute title="Weight" text="{WeightMeasure} {WeightUnit}" />
+					<ObjectAttribute title="Dimensions" text="{Width} x {Depth} X {Height} {DimUnit}" />
+				</attributes>
+				-->
+			</ObjectHeader>
+			<IconTabBar
+				class="sapUiSmallMarginBottom sapUiResponsiveContentPadding"
+				id="icontabbar"
+				select="tabBarSelect">
+				<items>
+					<IconTabFilter
+						key="solarInfo"
+						text="Solar Information">
+						<!--TODO: show current solar forecast as line chart-->
+						<VBox class="sapUiSmallMargin">
+							<f:SimpleForm id="solarInfoForm"
+								editable="false"
+								layout="ResponsiveGridLayout"
+								columnsXL="1"
+								columnsL="1"
+								columnsM="1">
+								<f:content>
+									<Label text="Position"/>
+									<Text text="{viewData>/solarInfo/latitude} {viewData>/solarInfo/longitude}"/>
+									<Label text="Address"/>
+									<Text text="{viewData>/solarInfo/place}"/>
+									<Label text="Declination"/>
+									<Text text="{viewData>/solarInfo/declination}"/>
+									<Label text="Azimuth"/>
+									<Text text="{viewData>/solarInfo/azimuth}"/>
+									<Label text="Max Power"/>
+									<Text text="{viewData>/solarInfo/power}"/>								
+								</f:content>
+							</f:SimpleForm>
+						</VBox>						
+					</IconTabFilter>
+					<IconTabFilter
+						key="recordings"
+						text="Recordings">
+						<List
+							items="{viewData>/recordings}"
+							mode="{viewData>/recListMode}"
+							delete="recDeletePress">
+							<headerToolbar>
+								<OverflowToolbar>
+									<Title text="Recordings" level="H2" />
+									<ToolbarSpacer />
+									<ToggleButton id="toggleRecordingDelete"
+										text="Delete Recordings"
+										press="toggleRecordingDelete" />
+								</OverflowToolbar>
+							</headerToolbar>							
+							<ObjectListItem
+								intro="{viewData>id}"
+								title="{viewData>name}"
+								type="Active"
+								number="{
+									path: 'viewData>totalConsumption',
+									formatter: 'formatter.w2kw'
+								}"
+								numberUnit="KW"
+								press="recordingPress(${viewData>id})">
+								<ObjectAttribute title="Recorded At" text="{
+									path: 'viewData>recordedAt',
+									formatter: 'formatter.formatDate'
+								}" />
+								<ObjectAttribute title="Interval Length" text="{viewData>intervalLength} min" />
+								<ObjectAttribute title="Recorded With" text="{viewData>entityId}" />
+							</ObjectListItem>
+						</List>
+					</IconTabFilter>				
+				</items>
+			</IconTabBar>			
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button type="Default" icon="sap-icon://add" text="Add Recording" press="addRecordingPress"/>
+			</OverflowToolbar>
+		</footer>		
+	</Page>
+</mvc:View>
