@@ -36,12 +36,7 @@ export async function validateSolarInfo(solarInfo) {
 export async function getSolarForecast(solarInfo) {
     // read forecast cache file + check if there´s any content and if the content is valid / up to date
     const cachedForecast = await getCachedForecast();
-    let cacheValid = !isObjectEmpty(cachedForecast);
-    if (cacheValid) {
-        // check if forecast data refers to a date in the past
-        cacheValid = !dayjs(cachedForecast.info.begin).isBefore(dayjs(), 'day');
-    }
-    if (cacheValid) {
+    if (isCacheValid(solarInfo, cachedForecast)) {
         // cache is availbale and valid -> return cached forecast
         console.info("returning forecast data from disk");
         return cachedForecast;
@@ -49,9 +44,27 @@ export async function getSolarForecast(solarInfo) {
         // discard cache and get new forecast data
         console.info("loading new forecast data from API");
         const freshForecast = await estimate(solarInfo);
+        freshForecast.info.declination = solarInfo.declination;
+        freshForecast.info.azimut = solarInfo.azimut;
+        freshForecast.info.maxPower = solarInfo.maxPower;
         await writeCachedForecast(freshForecast);
         return freshForecast;
     }
+}
+
+function isCacheValid(solarInfo, cachedForecast) {
+    // cache exists
+    if (isObjectEmpty(cachedForecast)) return false;
+    // cache refers to the same solar panel configuration
+    if (
+        (solarInfo.latitude !== cachedForecast.info.latitude) ||
+        (solarInfo.longitude !== cachedForecast.info.longitude) ||
+        (solarInfo.declination !== cachedForecast.info.declination) ||
+        (solarInfo.azimut !== cachedForecast.info.azimut) ||
+        (solarInfo.maxPower !== cachedForecast.info.maxPower)
+    ) return false;
+    // forecast refers to the current date
+    return !dayjs(cachedForecast.info.begin).isBefore(dayjs(), 'day');
 }
 
 async function getCachedForecast() {

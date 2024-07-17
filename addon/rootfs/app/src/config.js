@@ -7,7 +7,7 @@ const local = {
     solarInfo: {
         latitude: 51.27,
         longitude: 9.54,
-        declination: 45,
+        declination: 50,
         azimut: 45,
         maxPower: 3.5
     }

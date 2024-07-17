@@ -1,7 +1,7 @@
 name: "Solar Consumption Optimizer"
 description: "Optimize direct consumption of solar production"
 url: "https://github.com/mhtrashscode/socopt"
-version: "1.0.3"
+version: "1.0.4"
 slug: "socopt"
 init: false
 arch:
