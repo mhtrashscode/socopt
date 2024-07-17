@@ -1,9 +1,10 @@
-<mvc:View
+<mvc:View xmlns:layout="sap.ui.layout"
 	controllerName="de.fernunihagen.smartgrids.socopt.controller.Recording"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
+    xmlns:chart="de.fernunihagen.smartgrids.socopt.controls"
 	core:require="{
 		formatter: 'de/fernunihagen/smartgrids/socopt/model/formatter'
 	}">
@@ -12,15 +13,16 @@
 		showHeader="false"
 		id="recordingPage">
 		<content>
+            <layout:VerticalLayout >
 			<ObjectHeader
-                intro="ID {viewData>/recording/id}"
+                intro="{viewData>/recording/id}"
 				title="{viewData>/recording/name}"
 				backgroundDesign="Solid"
                 number="{
                     path: 'viewData>/recording/totalConsumption',
                     formatter: 'formatter.w2kw'
                 }"
-                numberUnit="KW">
+                numberUnit="KWH">
 				<attributes>
 					<ObjectAttribute title="Recorded At" text="{
                         path: 'viewData>/recording/recordedAt',
@@ -31,7 +33,10 @@
 				</attributes>
 			</ObjectHeader>
             <Table id="predictionsTable"
-                items="{viewData>/predictions}">
+                items="{viewData>/predictions}"
+                mode="SingleSelect"
+                selectionChange="predictionSelectionChange"
+                updateFinished="tableUpdateFinished">
                 <headerToolbar>
                     <OverflowToolbar>
                         <content>
@@ -73,7 +78,9 @@
                         </cells>
                     </ColumnListItem>
                 </items>
-            </Table>
+            </Table>            
+            <chart:PredictionLineChart prediction="{viewData>/slectedPrediction}" visible="{= ${viewData>/slectedPrediction} ? true : false}"/>
+            </layout:VerticalLayout>
 		</content>
 	</Page>
 </mvc:View>

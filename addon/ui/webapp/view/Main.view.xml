@@ -5,6 +5,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core"
+	xmlns:chart="de.fernunihagen.smartgrids.socopt.controls"
 	core:require="{
 		formatter: 'de/fernunihagen/smartgrids/socopt/model/formatter'
 	}">
@@ -17,12 +18,6 @@
 			<ObjectHeader
 				title="Optimize Solar Power Consumption"
 				backgroundDesign="Solid">
-				<!--
-				<attributes>
-					<ObjectAttribute title="Weight" text="{WeightMeasure} {WeightUnit}" />
-					<ObjectAttribute title="Dimensions" text="{Width} x {Depth} X {Height} {DimUnit}" />
-				</attributes>
-				-->
 			</ObjectHeader>
 			<IconTabBar
 				class="sapUiSmallMarginBottom sapUiResponsiveContentPadding"
@@ -32,7 +27,6 @@
 					<IconTabFilter
 						key="solarInfo"
 						text="Solar Information">
-						<!--TODO: show current solar forecast as line chart-->
 						<VBox class="sapUiSmallMargin">
 							<f:SimpleForm id="solarInfoForm"
 								editable="false"
@@ -53,7 +47,8 @@
 									<Text text="{viewData>/solarInfo/power}"/>								
 								</f:content>
 							</f:SimpleForm>
-						</VBox>						
+						</VBox>
+						<chart:ForecastLineChart production="{viewData>/solarForecast}" visible="{= ${viewData>/solarForecast} ? true : false}"/>			
 					</IconTabFilter>
 					<IconTabFilter
 						key="recordings"
@@ -79,7 +74,7 @@
 									path: 'viewData>totalConsumption',
 									formatter: 'formatter.w2kw'
 								}"
-								numberUnit="KW"
+								numberUnit="KWH"
 								press="recordingPress(${viewData>id})">
 								<ObjectAttribute title="Recorded At" text="{
 									path: 'viewData>recordedAt',

@@ -2,7 +2,8 @@
 	xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core">
+	xmlns:core="sap.ui.core"
+    xmlns:chart="de.fernunihagen.smartgrids.socopt.controls">
 	<Dialog
 		id="addRecDialog"
 		title="Add Consumption Recording">
@@ -32,6 +33,7 @@
                 <DateTimePicker
                     id="pickerBegin"
                     required="true"
+                    change="recordingDateChange"
                     value="{                                    
                         path: 'viewData>/newRecording/begin',
                         type: 'sap.ui.model.odata.type.DateTime'
@@ -39,11 +41,13 @@
                 <Label text="End" labelFor="pickerEnd" />
                 <DateTimePicker
                     id="pickerEnd"
+                    change="recordingDateChange"
                     required="true"
                     value="{                                    
                         path: 'viewData>/newRecording/end',
                         type: 'sap.ui.model.odata.type.DateTime'
-                    }"/>                                                        
+                    }"/>
+                <chart:ReadingsBubbleChart sensorReadings="{viewData>/sensorReadings}" visible="{viewData>/readingChartVisible}" />                                                   
             </Panel>
 		</content>
 		<footer>

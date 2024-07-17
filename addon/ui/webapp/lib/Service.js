@@ -88,6 +88,29 @@ sap.ui.define([
                 throw new Error(response.message);
             }
             return await response.json();
+        },
+
+        getSolarForecast: async function () {
+            const response = await fetch(`api/solarforecast`, {
+                method: "GET"
+            });
+            if (!response.ok) {
+                throw new Error(response.message);
+            }
+            return await response.json();
+        },
+
+        getSensorReadings: async function (entityId, begin, end) {
+            const response = await fetch(`api/readings/${entityId}/${begin}/${end}`, {
+                method: "GET"
+            });
+            if (!response.ok) {
+                throw new Error(response.message);
+            }
+            const result = await response.json();
+            result.begin = begin;
+            result.end = end;
+            return result;
         }
     }
 });

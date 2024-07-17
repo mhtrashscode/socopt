@@ -13,6 +13,7 @@ sap.ui.define([
 			const model = new JSONModel({
 				entities: [],
 				solarInfo: undefined,
+				solarForecast: undefined,
 				recordings: [],
 				newRecording: {
 					entityId: undefined,
@@ -21,11 +22,14 @@ sap.ui.define([
 					end: undefined,
 					intervalLength: 5
 				},
-				recListMode: "None"
+				sensorReadings: {},
+				readingChartVisible: false,
+				recListMode: "None",
 			});
 			const view = this.getView();
 			view.setModel(model, "viewData");
 			this.loadSolarInfo();
+			this.loadSolarForecast();
 			this.loadEntities();
 			this.loadRecordings();
 			// handle routing
@@ -61,19 +65,34 @@ sap.ui.define([
 			model.setProperty("/recordings", recs);
 		},
 
+		loadSensorReadings: async function (entityId, begin, end) {
+			const model = this.getModel("viewData");
+
+			if (entityId && begin && end) {
+				const readings = await Service.getSensorReadings(entityId, begin, end);
+				model.setProperty("/sensorReadings", readings);
+			}
+		},
+
+		loadSolarInfo: async function () {
+			const info = await Service.getSolarInfo();
+			const model = this.getModel("viewData");
+			model.setProperty("/solarInfo", info);
+		},
+
+		loadSolarForecast: async function () {
+			const forecast = await Service.getSolarForecast();
+			const model = this.getModel("viewData");
+			model.setProperty("/solarForecast", forecast);
+		},
+
 		deleteRecording: async function (id) {
 			try {
-				 await Service.deleteRecording(id);
+				await Service.deleteRecording(id);
 				this.loadRecordings();
 			} catch (error) {
 				MessageBox.error(error.message);
 			}
-		},
-
-		loadSolarInfo: async function(){
-			const info = await Service.getSolarInfo();
-			const model = this.getModel("viewData");
-			model.setProperty("/solarInfo", info);			
 		},
 
 		recordingPress: function (id) {
@@ -110,6 +129,19 @@ sap.ui.define([
 
 		cancelRecordingPress: function () {
 			this.dialog.close();
+		},
+
+		recordingDateChange: async function () {
+			const model = this.getModel("viewData");
+			const entityId = model.getProperty("/newRecording/entityId");
+			const begin = model.getProperty("/newRecording/begin");
+			const end = model.getProperty("/newRecording/end");
+			if (entityId && begin && end) {
+				await this.loadSensorReadings(entityId, begin, end);
+				model.setProperty("/readingChartVisible", true);
+			} else {
+				model.setProperty("/readingChartVisible", false);
+			}
 		},
 
 		toggleRecordingDelete: function () {

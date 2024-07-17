@@ -110,6 +110,26 @@ app.get("/api/solarinfo", async (req, res, next) => {
   }
 });
 
+app.get("/api/solarforecast", async (req, res, next) => {
+  try {
+    res.status(200).send(await getSolarForecast(config.solarInfo));
+  } catch (error) {
+    res.status(500).send({ message: "could not get solar forecast information" });
+  }
+});
+
+app.get("/api/readings/:entityId/:begin/:end", async (req, res, next) => {
+  try {
+    if (!req.params.entityId || !req.params.begin || !req.params.end) {
+      res.status(400).send({ message: "Cannot get sensor readings due to invalid URL parameters" });
+    } else {
+      res.status(200).send(await getSensorReadings(req.params.entityId, req.params.begin, req.params.end));
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Solar information is invalid" });
+  }
+});
+
 // Startup request processing
 app.listen(config.port, () => {
   console.log(`Socopt Addon listening on port ${config.port}`)
