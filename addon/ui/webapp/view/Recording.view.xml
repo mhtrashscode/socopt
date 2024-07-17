@@ -13,7 +13,7 @@
 		id="recordingPage">
 		<content>
 			<ObjectHeader
-                intro="{viewData>/recording/id}"
+                intro="ID {viewData>/recording/id}"
 				title="{viewData>/recording/name}"
 				backgroundDesign="Solid"
                 number="{

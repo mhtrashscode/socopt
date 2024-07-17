@@ -1,6 +1,6 @@
 name: "Solar Consumption Optimizer"
 description: "Optimize direct consumption of solar production"
-version: "1.0.0"
+version: "1.0.1"
 slug: "socopt"
 init: false
 arch:
