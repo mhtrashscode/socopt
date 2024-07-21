@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 
 import getConfig from "./config.js";
-import getPredictions from './prediction.js';
+import { getPredictions } from './prediction.js';
 import {
   getSensorReadings,
   createConsumptionRecording,

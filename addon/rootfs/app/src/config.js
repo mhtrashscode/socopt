@@ -1,17 +1,6 @@
 import fs from 'node:fs/promises';
 
-const local = {
-    port: 3001,
-    haURL: "http://127.0.0.1:8122/api",
-    haToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIwMDgzZjNhYjNkMGM0YTgwOGJmMTEzMTRjNGQ0MjUwOCIsImlhdCI6MTcyMDQyODc0MCwiZXhwIjoyMDM1Nzg4NzQwfQ.uvuR1yOlRJSxDcsszMMvXA4iLGSJiMPZ3cIHoRPOSuo",
-    solarInfo: {
-        latitude: 51.27,
-        longitude: 9.54,
-        declination: 50,
-        azimut: 45,
-        maxPower: 3.5
-    }
-}
+// Home assistant stores addon configurations / options in this file. They can be edited by accessing the addon settings within home assistant.
 const optionsPath = "/data/options.json";
 
 let configCache = undefined;
@@ -26,7 +15,7 @@ export default async function getConfig() {
 async function readConfig() {
     const spvToken = process.env.SUPERVISOR_TOKEN;
     // return default config for local development testing
-    if (!spvToken) return local;
+    if (!isHAEnvironment()) return getLocalConfig();
     // return home assistant addon configuration
     try {
         const file = await fs.readFile(optionsPath, { encoding: 'utf8' });
@@ -46,5 +35,37 @@ async function readConfig() {
     } catch (err) {
         console.error(err);
         throw err;
+    }
+}
+/**
+ * Returns true if the addon is currently executed within the home assistant environment.
+ * @returns boolean
+ */
+function isHAEnvironment() {
+    const spvToken = process.env.SUPERVISOR_TOKEN;
+    return spvToken !== undefined;
+}
+
+/**
+ * Rerturns an object with configuration data for local testing and remote API access to the home assistant installation.
+ */
+function getLocalConfig() {
+    const apiURL = process.env.haUrl;
+    const apiPort = process.env.haPort;
+    const apiToken = process.env.haToken;
+    if (!apiURL || !apiPort || !apiToken) {
+        throw { message: "cannot determine home assistant API details for local testing, check .env file" }
+    }
+    return {
+        port: apiPort,
+        haURL: apiURL,
+        haToken: apiToken,
+        solarInfo: {
+            latitude: 51.27,
+            longitude: 9.54,
+            declination: 50,
+            azimut: 45,
+            maxPower: 3.5
+        }
     }
 }
