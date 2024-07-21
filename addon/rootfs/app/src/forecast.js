@@ -20,7 +20,7 @@ export async function validateSolarInfo(solarInfo) {
             "Content-Type": "application/json"
         }
     });
-    console.log(url, response.status);
+    //console.log(url, response.status);
     if (response.status >= 300) {
         throw { message: `cannot validate solar plane information; status code ${response.status}` };
     }
@@ -128,7 +128,7 @@ async function estimate(solarInfo) {
             "Content-Type": "application/json"
         }
     });
-    console.log(url, response.status);
+    //console.log(url, response.status);
     if (response.status >= 300) {
         throw { message: `cannot read solar forecast data; status code ${response.status}` };
     }

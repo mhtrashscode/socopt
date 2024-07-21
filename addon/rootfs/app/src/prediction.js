@@ -57,7 +57,7 @@ Example Result
     ]
 }
 */
-export function predict(begin, recording, forecast) {
+function predict(begin, recording, forecast) {
     const intervals = [];
     let intervalBegin = dayjs(begin);
     let totalDeficitWattMinutes = 0.0;

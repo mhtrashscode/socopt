@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 
 import getConfig from "./config.js";
+import getPredictions from './prediction.js';
 import {
   getSensorReadings,
   createConsumptionRecording,
@@ -15,20 +16,25 @@ import {
   getSolarForecast,
   validateSolarInfo
 } from './forecast.js';
-import { getPredictions } from './prediction.js';
 
+/**
+ * Initialization
+ */
 const config = await getConfig();
 const app = express();
-
-console.log(`Supervisor Token: ${config.haToken}`);
 console.log(`Serving static content from ${path.join(process.cwd(), 'static')}`);
 
+/**
+ * Server middleware executed for each HTTP request.
+ */
 // Middleware that serves static files of the UI application
 app.use('/', express.static(path.join(process.cwd(), 'static')));
-
 // Parse HTTP request body as JSON
 app.use(express.json());
 
+/**
+ * HTTP request routes.
+ */
 app.get("/api/entities", async (req, res) => {
   res.send(await getEntities());
 });
@@ -132,5 +138,5 @@ app.get("/api/readings/:entityId/:begin/:end", async (req, res, next) => {
 
 // Startup request processing
 app.listen(config.port, () => {
-  console.log(`Socopt Addon listening on port ${config.port}`)
+  console.log(`Socopt Addon express server listening on port ${config.port}`)
 });

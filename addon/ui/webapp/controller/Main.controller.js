@@ -42,13 +42,13 @@ sap.ui.define([
 			const routeName = event.getParameters().name;
 			switch (routeName) {
 				case 'default':
-				case 'recordings':
-					tabBar.setSelectedKey("recordings");
-					console.log(`showing recordings`);
-					break;
 				case 'solarInfo':
 					tabBar.setSelectedKey("solarInfo");
 					console.log(`showing solar information`);
+					break;					
+				case 'recordings':
+					tabBar.setSelectedKey("recordings");
+					console.log(`showing recordings`);
 					break;
 			}
 		},

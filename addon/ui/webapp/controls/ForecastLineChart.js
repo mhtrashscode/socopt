@@ -1,3 +1,6 @@
+/*
+    Renders a line chart for solar forecast data stored in control property "production".
+*/
 sap.ui.define([
     "sap/ui/core/Control"
 ], function (Control) {
@@ -7,6 +10,20 @@ sap.ui.define([
 
         metadata: {
             properties: {
+                /*
+                    Expects an object in format
+                    {
+                        info: {
+                            time: <timestamp>,
+                            begin: <timestamp>,
+                            end: <timestamp>
+                        },
+                        intervals: [
+                            { timestamp: <timestamp>, power: <int; power in watts> }
+                            ...
+                        ]
+                    }
+                */
                 production: { type: "object" }
             }
         },
@@ -29,7 +46,7 @@ sap.ui.define([
             // create prduction dataset
             const production = this.getProduction();
             const prodSet = {
-                label: `Solar Production Forecast from ${new Date(production.info.time).toLocaleDateString('de-DE')}`,
+                label: `Solar Production Forecast of ${new Date(production.info.time).toLocaleDateString('de-DE')}`,
                 data: production.intervals.map(i => {
                     return {
                         x: i.timestamp,
@@ -81,7 +98,5 @@ sap.ui.define([
                 oRm.close("canvas");
             }
         }
-
     });
-
 });

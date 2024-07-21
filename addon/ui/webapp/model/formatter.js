@@ -34,7 +34,7 @@ sap.ui.define(function () {
 		},
 		coverage: function (coverage) {
 			const c = Number.parseFloat(coverage);
-			if (c >= 0.80) return 'Success';
+			if (c >= 0.75) return 'Success';
 			if (c >= 0.50) return 'Warning';
 			return 'Error';
 		}

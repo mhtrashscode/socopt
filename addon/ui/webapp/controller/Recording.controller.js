@@ -26,12 +26,13 @@ sap.ui.define([
             if (routeName !== "recording") return;
             const id = event.getParameters().arguments.id;
             const m = this.getModel("viewData");
+            // load the recording
             m.setProperty("/recording", await Service.getRecording(id));
+            // load predictions to that recording and (if any predictions are available) preset the first prediction within the model
             const predictions = await Service.getPredictions(id);
             if (predictions.length > 0) {
                 m.setProperty("/predictions", predictions);
                 m.setProperty("/slectedPrediction", predictions[0]);
-                //const table = this.byId("predictionsTable");
             }
         },
 
@@ -41,7 +42,6 @@ sap.ui.define([
             const context = item.getBindingContext("viewData");
             const model = context.getModel();
             const predictionItem = model.getProperty(context.getPath());
-            console.log(predictionItem);
             model.setProperty("/slectedPrediction", predictionItem);
         },
 
