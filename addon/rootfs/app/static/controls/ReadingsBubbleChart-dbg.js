@@ -1,3 +1,6 @@
+/*
+    Renders a bubble chart for sensor reading data stored in control property "sensorReadings".
+*/
 sap.ui.define([
     "sap/ui/core/Control"
 ], function (Control) {
@@ -7,6 +10,18 @@ sap.ui.define([
 
         metadata: {
             properties: {
+                /*
+                    Expects an object in format
+                    {
+                        entityId: <string>,
+                        begin: <timestamp>,
+                        end: <timestamp>,
+                        readings: [
+                            { timestamp: <timestamp>, state: <int; power in watts> }
+                            ...
+                        ]
+                    }
+                */
                 sensorReadings: { type: "object" }
             }
         },
@@ -79,7 +94,5 @@ sap.ui.define([
                 oRm.close("canvas");
             }
         }
-
     });
-
 });

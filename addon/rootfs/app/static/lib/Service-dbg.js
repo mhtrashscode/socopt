@@ -1,3 +1,6 @@
+/*
+    This module provides convenience functions to access the SOCOPT addon web API.
+*/
 sap.ui.define([
     "sap/base/Log"
 ], function (Log) {

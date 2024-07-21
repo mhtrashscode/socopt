@@ -1,12 +1,29 @@
+/*
+    Renders a solar power coverage prediction as a line chart showing both the expected solar
+    procution and energy consumption.
+*/
 sap.ui.define([
     "sap/ui/core/Control"
 ], function (Control) {
     "use strict";
 
     return Control.extend("de.fernunihagen.smartgrids.socopt.controls.PredictionLineChart", {
-
         metadata: {
             properties: {
+                /*
+                    Expects an object in format
+                    {
+                        intervals: [
+                            {
+                                begin: <timestamp>,
+                                end: <timestamp>,
+                                powerAvailable: <int; power in watts>
+                                powerRequired: <int; power in watts>
+                            }
+                            ...
+                        ]
+                    }
+                */
                 prediction: { type: "object" }
             }
         },
@@ -92,7 +109,5 @@ sap.ui.define([
                 oRm.close("canvas");
             }
         }
-
     });
-
 });
