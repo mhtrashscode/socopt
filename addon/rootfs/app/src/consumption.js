@@ -59,8 +59,10 @@ export async function getSensorReadings(entityId, begin, end) {
     result.unitOfMeasurement = data[0].attributes.unit_of_measurement;
     result.lastReadingAt = dayjs(data[data.length - 1].last_changed).format();
     for (const r of data) {
+        let stateNumber = parseFloat(r.state);
+        if (isNaN(stateNumber)) stateNumber = undefined;
         result.readings.push({
-            state: r.state,
+            state: stateNumber,
             timestamp: dayjs(r.last_changed).format()
         });
     }
@@ -103,6 +105,10 @@ export function createConsumptionRecording(sensorReadings, name = '', intervalLe
     let intervalCounter = -1;
     let nextIntervalBegin = sensorReadings.firstReadingAt;
     for (const r of sensorReadings.readings) {
+        // validate entity state
+        if (typeof r.state !== 'number') {
+            continue;
+        }
         if (dayjs(r.timestamp).isBefore(nextIntervalBegin)) {
             // add to current interval
             readingIntervals[intervalCounter].push(r);

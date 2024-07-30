@@ -51,13 +51,13 @@ function isHAEnvironment() {
  */
 function getLocalConfig() {
     const apiURL = process.env.haUrl;
-    const apiPort = process.env.haPort;
     const apiToken = process.env.haToken;
-    if (!apiURL || !apiPort || !apiToken) {
+    const addonPort = process.env.addonPort;
+    if (!apiURL || !addonPort || !apiToken) {
         throw { message: "cannot determine home assistant API details for local testing, check .env file" }
     }
     return {
-        port: apiPort,
+        port: addonPort,
         haURL: apiURL,
         haToken: apiToken,
         solarInfo: {
